@@ -15,10 +15,12 @@ Søg efter filen `AI-BRAIN-INDEX.md` i det tilsluttede filarkiv. Læs YAML-blokk
 
 Dette filter fjerner AI-mønstre. Stemmeprofilen tilføjer personens fingeraftryk. Til kundevendt tekst kræves begge.
 
-Stop aldrig leveringen på grund af en mislykket opslag. Kør dette filter alligevel, skriv i svaret at teksten er skrevet uden stemmeprofil, og sig hvilket trin der fejlede, for de to har hver sin løsning:
+Stop aldrig leveringen på grund af en mislykket opslag. Kør dette filter alligevel, skriv i svaret at teksten er skrevet uden stemmeprofil, og sig hvilket trin der fejlede, for de fire har hver sin løsning:
 
 - Filarkivet kan ikke nås, eller søgningen giver intet resultat: sig at `AI-BRAIN-INDEX.md` ikke kunne findes i filarkivet. Løsningen ligger i forbindelsen til filarkivet, eller i at filen er flyttet eller omdøbt.
-- Indekset blev fundet, men filen under `resolver.files.voice_profile` findes ikke: sig hvilket filnavn der manglede. Løsningen ligger i resolver-blokken, ikke i forbindelsen.
+- Indekset blev fundet, men det har ingen `resolver`-blok: sig at indekset blev fundet, men at det ikke peger på nogen filer. Løsningen ligger i resolver-blokken, ikke i forbindelsen.
+- Indekset blev fundet, men filen under `resolver.files.voice_profile` findes ikke: sig hvilket filnavn der manglede. Løsningen ligger i `files`-kortet i resolver-blokken, ikke i forbindelsen.
+- Indekset blev fundet, men `brain_version` er lavere end 4: sig at hjernen er ældre end denne version af pluginnet, og bed om den nye. Det kræver en ny opbygning hos den, der har leveret hjernen.
 
 Gæt aldrig på en stemme.
 

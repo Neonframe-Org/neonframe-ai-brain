@@ -27,13 +27,27 @@ That's it. The skills work in chat on the web, in the Chat tab in Claude Desktop
 
 ### In Claude Code
 
-```bash
+Type these two in Claude Code itself, not in a terminal:
+
+```
 /plugin marketplace add Neonframe-Org/neonframe-ai-brain
 ```
 
-```bash
+```
 /plugin install neonframe-ai-brain@neonframe-ai-brain
 ```
+
+### If your network blocks GitHub
+
+Some corporate networks block this repository, so the marketplace add above will fail. There's a backup: a `.zip` of the same plugin that you upload by hand.
+
+1. Your setup folder has it, at `setup/offline-plugin/`. If you don't have that folder, the same file is in [`dist/`](dist/) here, and whoever set you up can send it to you.
+2. In the Claude app, go to **Customize > Plugins > Personal plugins**, click **+**, and choose to upload a plugin file.
+3. Pick the `.zip`.
+
+It has to be the `.zip`. The uploader rejects a `.plugin` file with an unhelpful error, which is a known bug in the app, not a problem with the file.
+
+One tradeoff: a hand-uploaded plugin doesn't update itself. When there's a new version you upload the new `.zip` the same way. Installing from the marketplace is better whenever your network allows it.
 
 ## Before you install, read what you're installing
 

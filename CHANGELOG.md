@@ -33,6 +33,20 @@ Clients on an older version keep working. Skills resolve the brain at runtime, s
 - **Minor** for a new skill, or new behaviour in an existing one.
 - **Major** for a change that requires something new in the brain, for example a new resolver key. A major release means older brains genuinely cannot serve it, so it needs a rebuild plan before it ships.
 
+## 1.0.2, 2026-07-28
+
+Fixes from an independent QA pass on the whole v4 delivery system. Everything here is wording inside skills; no resolver key changed, so no brain needs rebuilding.
+
+**Fixes**
+
+- `morning-briefing` named a `briefings/` folder that appears in no resolver `folders` map, the same hardcoding defect four other skills had fixed in 1.0.1. It also told the model to keep a running action list in the knowledge folder, which contradicts both the conventions file and `CLAUDE.md`: live state is not brain. It now keeps the list in the connected task tool, or in the chat, and asks once where a saved copy should go.
+- Both humanizers now name four distinct failure cases, matching `morning-briefing` and the promise both READMEs make: index not found, index found with no resolver block, named voice-profile file missing, and brain older than the plugin. `humanizer-danish` was still on two, so a Danish client on a v3 brain was told to check their connector when the real fix was a rebuild.
+- The client README now documents the offline `.zip`, the blocked-network route, and the fact that the uploader takes `.zip` and rejects `.plugin`. The file was sitting in `dist/` with nothing explaining it. The two Claude Code slash commands are no longer in shell code fences; they are typed in Claude Code, and a shell fence invited pasting them into a terminal.
+
+**A correction to how 1.0.1 was released**
+
+Commit `7ec3bef` edited `humanizer/SKILL.md` and rebuilt the offline zip about five hours after 1.0.1 was tagged, without bumping the version. That breaks this file's own rule, and the justification recorded in the commit ("never delivered to a client yet") is a claim nobody can verify after the fact. Anyone who installed inside that window holds a 1.0.1 whose content differs from the 1.0.1 published now. The third humanizer failure branch from that commit is folded into this release and the version is bumped properly. If you are on 1.0.1, update.
+
 ## 1.0.1, 2026-07-26
 
 Distribution moved to this public marketplace repository. Two fixes from a hardcoding audit of all nine skills.
@@ -49,9 +63,11 @@ Distribution moved to this public marketplace repository. Two fixes from a hardc
 
 Audit result otherwise clean: no product name, personal name, client name, path or brain filename is hardcoded in any of the nine skills. `AI-BRAIN-INDEX.md` remains the single string they know.
 
-**On retiring the `.plugin` file**
+**On retiring the `.plugin` file** (partly superseded, see below)
 
 The single file existed because it was the only way into the Claude desktop app. It no longer is: the app takes a marketplace repository directly, under Customize > Plugins > Add marketplace. Keeping both routes would mean two artifacts built from one source, one of which silently never updates, and two populations of client on two support paths. That is the divergence v4 was built to remove. The file is gone from the brain template rather than kept as a fallback, and a client on a network that blocks GitHub gets it handed to them directly instead of everyone carrying it.
+
+Superseded on 2026-07-27, before 1.0.1 reached anyone. Enough clients sit behind corporate networks that block GitHub that handing the file over mid-session was not workable, so an offline copy ships in the brain template after all, at `setup/offline-plugin/`. Two changes keep the divergence risk the paragraph above is worried about: it is a `.zip` built from this repository by `scripts/build-offline-zip.sh` rather than a separately maintained artifact, and the gate checks its checksum against the master on every build. The marketplace stays the primary route and the `.zip` is labelled a backup wherever it appears.
 
 ## 1.0.0, 2026-07-25
 

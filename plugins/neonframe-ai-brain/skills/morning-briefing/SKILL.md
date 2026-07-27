@@ -45,7 +45,7 @@ Pull today's events and the next two days. For each meeting give the time, the t
 
 ## Step 3: update the action items
 
-Find the task home. The tools and environment section of the company context file names the task or project tool the user actually works in. If that tool is connected, keep action items there. If no tool is connected, keep a running action list at the top of the knowledge folder in the AI Brain.
+Find the task home. The tools and environment section of the company context file names the task or project tool the user actually works in. If that tool is connected, keep action items there. If no tool is connected, keep the running action list in the chat and ask once where they want it kept. A live task list is state, not knowledge, so it does not belong in the brain, and the conventions file says so.
 
 - Add any new tasks that came out of the email and the meetings inside the lookback window.
 - For anything completed, move it to an archive entry dated today, then remove it from the live list.
@@ -57,7 +57,7 @@ Only if a CRM or pipeline tool named in the company context is connected. Scan f
 
 ## Step 5: write the briefing
 
-If the connected task or project tool has a home for daily briefings, save the briefing there as a dated entry. Otherwise write it in the chat, and save a copy to a file only if asked, in a `briefings/` folder in the AI Brain or wherever the user asks. A briefing is output, not brain. Use this structure:
+If the connected task or project tool has a home for daily briefings, save the briefing there as a dated entry. Otherwise write it in the chat, and save a copy to a file only if asked, wherever the user asks for it. A briefing is output, not brain, so it is never filed into the brain folders by default. Use this structure:
 
 ```
 ## Calendar: [day, date]

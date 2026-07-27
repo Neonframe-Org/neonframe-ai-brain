@@ -1,6 +1,6 @@
 {
   "name": "neonframe-ai-brain",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Nine skills that read your voice, your company context and your guardrails from your own AI Brain folder, so Claude writes and works the way you do on every device.",
   "author": {
     "name": "Neonframe",
