@@ -50,3 +50,29 @@ echo "sha256: $(shasum -a 256 "$OUT" | cut -d' ' -f1)"
 echo
 echo "Archive root (must show .claude-plugin/ and skills/ at top level):"
 unzip -l "$OUT" | head -12
+
+# --- tier three: one archive per skill -------------------------------------
+# The last resort, for a client who can neither add the marketplace nor upload a plugin.
+# Individual skills go in one at a time under Customize > Skills > + > Create skill >
+# Upload a skill. Each archive wraps ONE directory named exactly for the skill, holding
+# its SKILL.md and any references it loads, which is the layout that uploader expects.
+#
+# It is genuinely worse than the other two routes and the docs say so: it is one upload
+# per skill, nothing auto-updates, and Anthropic documents the route most clearly for
+# Cowork rather than for chat on web and desktop. Use it only when the first two fail.
+SKILLS_OUT="dist/skills-v${VERSION}"
+rm -rf "$SKILLS_OUT"
+mkdir -p "$SKILLS_OUT"
+
+COUNT=0
+for SKILL_PATH in "$PLUGIN_DIR"/skills/*/; do
+  SKILL=$(basename "$SKILL_PATH")
+  ( cd "$PLUGIN_DIR/skills" && zip -r -X -q "../../../$SKILLS_OUT/${SKILL}.zip" "$SKILL" \
+      -x '.DS_Store' -x '**/.DS_Store' )
+  COUNT=$((COUNT + 1))
+done
+
+echo
+echo "Built $COUNT per-skill archives in $SKILLS_OUT/"
+echo "Each must contain exactly one top-level directory named for its skill:"
+unzip -l "$SKILLS_OUT/humanizer.zip" | head -10

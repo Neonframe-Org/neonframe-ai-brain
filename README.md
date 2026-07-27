@@ -2,7 +2,7 @@
 
 The Claude plugin that reads your AI Brain.
 
-Your AI Brain is a folder of plain text files in your own cloud storage. It holds how you write, how your company writes, what the business is, and the rules you want followed. This plugin adds nine skills that read those files at the moment they're needed, so you never explain yourself twice.
+Your AI Brain is a folder of plain text files in your own cloud storage. It holds how you write, how your company writes, what the business is, and the rules you want followed. This plugin adds eight skills that read those files at the moment they're needed, so you never explain yourself twice.
 
 The folder is yours. The plugin only reads it.
 
@@ -57,7 +57,7 @@ So here's the honest version.
 
 **Who publishes this.** Neonframe, an AI consulting practice. neonframe.io. This repository is public so you can check that for yourself.
 
-**What's in it.** Nine skills. A skill is a set of written instructions in a Markdown file, nothing more. No code runs, nothing is uploaded anywhere, and no copy of your information is kept inside the plugin.
+**What's in it.** Eight skills. A skill is a set of written instructions in a Markdown file, nothing more. No code runs, nothing is uploaded anywhere, and no copy of your information is kept inside the plugin.
 
 **How to check.** Every skill is readable in this repository right now, before you install anything:
 
@@ -70,8 +70,7 @@ So here's the honest version.
 | `update-my-brain` | Writes durable facts back into the brain when something changes. | [SKILL.md](plugins/neonframe-ai-brain/skills/update-my-brain/SKILL.md) |
 | `offload-my-brain` | Turns a link, screenshot, article or rough note into a clean saved entry. | [SKILL.md](plugins/neonframe-ai-brain/skills/offload-my-brain/SKILL.md) |
 | `morning-briefing` | One page each morning: email, calendar, tasks, what needs you. | [SKILL.md](plugins/neonframe-ai-brain/skills/morning-briefing/SKILL.md) |
-| `humanizer` | Strips AI tells from English writing and applies your spelling and register. | [SKILL.md](plugins/neonframe-ai-brain/skills/humanizer/SKILL.md) |
-| `humanizer-danish` | The same, for Danish text. | [SKILL.md](plugins/neonframe-ai-brain/skills/humanizer-danish/SKILL.md) |
+| `humanizer` | Strips AI tells from anything you write, in English or Danish, and applies your spelling and register. | [SKILL.md](plugins/neonframe-ai-brain/skills/humanizer/SKILL.md) |
 
 Reading the source before installing is worth doing here and worth doing everywhere. A skill can act with your access, so installing one is closer to handing over your login than to downloading an app.
 

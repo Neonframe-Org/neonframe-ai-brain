@@ -35,6 +35,30 @@ Watch every session for these signals. When one appears, write it. Do not ask fi
 | A document structure that worked | The folder named at `folders.templates` |
 | An answer to anything marked "to confirm" | Wherever that item sits |
 
+## What not to capture
+
+A brain that captures everything is worth less than one that captures the right things, because the signal drowns. Do not write:
+
+- Anything true only today: what they are working on this week, the state of a live task, who they are waiting on. That is state, and it belongs in the task tool or the conversation.
+- Anything already recorded elsewhere in the brain. Update the existing line instead. Two files saying the same thing in different words is how a brain starts contradicting itself.
+- The output of the work. A briefing, a draft, a document you just wrote. Produced work goes wherever suits the task; it is not brain.
+- A restatement of something the brain already implies. If the voice profile says they never use exclamation marks, "dislikes exclamation marks" adds nothing.
+- Anything you inferred rather than observed. A guess written into the brain gets repeated with confidence for months.
+- One-off conversational detail: what they had for lunch, a scheduling comment, small talk.
+
+When something is borderline, ask whether a reader six months from now would be worse off without it. If the honest answer is no, do not write it.
+
+## Before you write: check what is already there
+
+Every capture starts with a search, not a write. This is the single control that keeps the brain from doubling every month.
+
+1. Search the relevant home for an entry already covering this. For a brain file, read the section you are about to add to. For knowledge, search both `primary` and `fallback` on the topic, not just the filename you have in mind.
+2. **If something covering it exists, update that.** Correct the line, sharpen it, or add the one detail that is new. Do not create a second entry.
+3. **Only create a new entry when nothing covers it.** A new file is the exception, not the default.
+4. When a new entry does supersede an older one that cannot simply be edited, say so in the new entry, name the file it replaces, and set the old one's `status` to `superseded`. Never leave two live entries disagreeing.
+
+If a search fails because the connector is down, say so and hold the capture rather than writing a possible duplicate blind.
+
 ## Resolve the knowledge home
 
 Read `knowledge_home` from the `resolver` block in the index before writing or reading any knowledge entry. It gives one home for writes and two homes for reads.
@@ -91,13 +115,27 @@ When a file stops being guesswork, raise its `status`: `draft-thin` to `draft` t
 
 A review is a sweep, not a capture, and it is worth running quarterly. Read the index and the frontmatter of each brain file first, not the full bodies, then report one short list:
 
+- How many knowledge entries exist now, and how many were added since the last review. A brain growing faster than the work it describes is hoarding.
 - Files whose `last_updated` is more than 90 days old.
 - Files still marked `draft` or `draft-thin`, and what would move them to `active`.
 - Any "to confirm" item still unanswered, quoted so it can be answered on the spot.
 - Files past roughly 300 lines that need splitting or cutting.
 - Anything that contradicts something newer elsewhere in the brain. Name both and ask which is true.
+- Near-duplicates: two or more entries covering the same ground. Propose which to keep and which to fold into it.
+- Entries that have stopped being true, and entries about work that ended long ago and was never worth keeping.
 
-Fix what this conversation settles. Ask about the rest rather than guessing, and never delete a file as part of a review.
+Fix what this conversation settles. Ask about the rest rather than guessing.
+
+### Pruning
+
+A brain that can only grow eventually stops being read, and an unread brain is worth nothing. So a review may remove, under one condition: never delete anything without naming it first and getting an explicit yes.
+
+- List what you propose to remove and why, in one line each. Wait for a decision on the list.
+- Prefer `status: superseded` over deletion for anything that records a decision, even a reversed one. The reasoning stays useful after the conclusion stops being true.
+- Delete outright only what was never worth capturing: duplicates, one-off state that should never have been written, entries about work that ended and left nothing to reuse.
+- Never remove anything from the safety rules file as part of a review. That file only ever loosens on an explicit, specific instruction.
+
+Outside a review, the rule from earlier still holds: replace and correct freely, but ask before removing content you are not certain is superseded.
 
 ## The two things to ask about
 
@@ -107,6 +145,21 @@ Write everything else automatically. Ask first only when:
 - You would remove content rather than replace it, and you are not certain it is superseded.
 
 Never invent a voice characteristic, a client fact, or a business detail to fill a gap. An honest "to confirm" beats a guess, because a guess written into the brain gets repeated for months.
+
+## Working alongside Claude's own memory
+
+Claude has its own memory, separate from this brain. Both notice things and both persist them, so without a boundary the same fact ends up in two stores that slowly disagree. Keep them apart on purpose.
+
+**The brain holds what has to outlive this account.** Voice, company facts, safety rules, client and project context, decisions and outcomes. It is plain files in the user's own storage: portable if they leave Claude, shareable with colleagues, readable and correctable by hand, and auditable months later. Anything in that category is captured here, by this skill, whether or not Claude's memory also noticed it.
+
+**Claude's own memory holds conversational continuity.** How a particular thread has been going, what was already tried in it, throwaway preferences about the shape of a reply. None of that is worth a file.
+
+Two rules where they meet:
+
+1. **The brain wins.** If something in memory contradicts a brain file, the brain is right and the memory is stale. Say so, use the brain, and offer to correct the memory.
+2. **Do not double-write.** When a capture belongs in the brain, put it in the brain and do not also push it into memory. Duplicating it is what starts the drift.
+
+The user's personal instructions state the same boundary, so it holds even when no skill has fired.
 
 ## When the brain does not resolve
 

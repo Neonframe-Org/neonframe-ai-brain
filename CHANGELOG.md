@@ -1,6 +1,6 @@
 # Changelog: neonframe-ai-brain
 
-The client-facing plugin. Nine skills that read a person's voice, company context and guardrails from their own AI Brain folder.
+The client-facing plugin. Eight skills that read a person's voice, company context and guardrails from their own AI Brain folder.
 
 **This file is canonical.** It replaced the copy that lived at `Skill Templates/neonframe-ai-brain-plugin/CHANGELOG.md` in the Neonframe Consulting shared drive on 2026-07-26. That copy is now a pointer to this one. Two changelogs drifting apart is the exact failure the v4 architecture was built to remove, so do not restore it.
 
@@ -32,6 +32,33 @@ Clients on an older version keep working. Skills resolve the brain at runtime, s
 - **Patch** for wording, a clarified instruction, a fixed typo in a skill.
 - **Minor** for a new skill, or new behaviour in an existing one.
 - **Major** for a change that requires something new in the brain, for example a new resolver key. A major release means older brains genuinely cannot serve it, so it needs a rebuild plan before it ships.
+
+## 1.1.0, 2026-07-28
+
+The two humanizers become one. New housekeeping rules so a brain stops growing without bound, and a stated boundary with Claude's own memory.
+
+**Eight skills, not nine**
+
+- `humanizer` and `humanizer-danish` are now a single `humanizer`. `SKILL.md` is a router: it resolves the brain, works out the output language, then loads exactly one body from its own references folder, `english.md` or `dansk.md`. English also loads its locale annex as before.
+- This is strictly better than shipping both. Every client used to carry two skill descriptions in context on every turn, one of them a long Danish trigger list they would never use, and an English-only client saw a Danish skill in their plugin list. The router is 4.9k where the old English skill alone was 17k, because the bulk now loads only when it applies.
+- It also removes a cross-skill dependency that could break: the English humanizer used to say "Danish belongs to the other skill", which was wrong the moment that skill was missing.
+- `write-as-me`, `company-voice` and `morning-briefing` now just say "run the humanizer" rather than picking between two.
+
+**update-my-brain stops being a ratchet**
+
+The brain could only grow. Nothing checked whether a capture already existed, nothing said what was not worth capturing, and review was explicitly forbidden from deleting. Three changes:
+
+- **Search before writing.** Every capture starts with a search of the relevant home. If something covering it exists, that entry gets corrected. A new file is now the exception, not the default. This is the single biggest control on growth.
+- **An explicit do-not-capture list.** Live state, anything already in the brain, produced work, restatements of what the brain already implies, and anything inferred rather than observed.
+- **Review can prune.** It reports how many knowledge entries exist and how many are new, flags near-duplicates and entries that stopped being true, and may remove them after naming each one and getting an explicit yes. Decisions get `status: superseded` rather than deletion, because the reasoning outlives the conclusion. The safety rules file is never pruned.
+
+**A boundary with Claude's own memory**
+
+Claude's memory and the AI Brain both notice and both persist, so without a rule the same fact lands in two stores that drift. The brain holds what has to outlive the account: voice, company facts, safety rules, client context, decisions. Claude's memory holds conversational continuity. Two rules where they meet: the brain wins on any conflict, and a capture that belongs in the brain is not also pushed into memory. The client's personal instructions carry the same boundary, so it holds when no skill fires.
+
+**A third install route**
+
+`scripts/build-offline-zip.sh` now also builds one archive per skill into `dist/skills-v<version>/`, for a client who can neither add the marketplace nor upload a plugin. It is the worst of the three routes and is documented as such: one upload per skill, no self-updating, and clearest support in Cowork rather than browser chat.
 
 ## 1.0.2, 2026-07-28
 

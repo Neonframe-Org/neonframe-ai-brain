@@ -32,7 +32,7 @@ Follow the fetched profile. Do not override it with what follows. These are the 
 - No em dashes. No double hyphens. Use a comma, a colon, or a new sentence.
 - No jargon, no AI filler, no motivational register, no hype.
 - Contractions. Short sentences. Lead with the point.
-- Run the `humanizer` skill on English text and `humanizer-danish` on Danish text before delivering, matching whichever locale the resolver's `humanizer_locales` covers.
+- Run the `humanizer` skill before delivering. It picks the language itself and applies the locale the resolver's `humanizer_locales` declares.
 
 ## Confidence
 

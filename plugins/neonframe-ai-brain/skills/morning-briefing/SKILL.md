@@ -78,7 +78,7 @@ Two or three items, one line each, with what each one unblocks.
 
 ## Writing rules
 
-No filler. Lead each section with what matters most, not with what came in first. Call out anything that looks like it is slipping. The whole briefing reads in five minutes. No em dashes. No double hyphens. Active sentences. Run the `humanizer` skill on English drafts and `humanizer-danish` on Danish drafts, matching whichever locale the resolver's `humanizer_locales` covers.
+No filler. Lead each section with what matters most, not with what came in first. Call out anything that looks like it is slipping. The whole briefing reads in five minutes. No em dashes. No double hyphens. Active sentences. Run the `humanizer` skill on the draft before delivering. It picks the language itself and applies the locale the resolver's `humanizer_locales` declares.
 
 ## When the brain does not resolve
 

@@ -34,7 +34,7 @@ Follow the fetched voice file. Standing rules underneath it:
 - Real numbers or no numbers. Never put a vague claim and a hard figure in the same breath.
 - Apply the locale conventions recorded in the company context file: financial year, sales tax, currency, units, seasonal timing. Never assume a country.
 - No em dashes. No double hyphens. No jargon. No hype.
-- Run the `humanizer` skill on English text and `humanizer-danish` on Danish text before delivering, matching whichever locale the resolver's `humanizer_locales` covers.
+- Run the `humanizer` skill before delivering. It picks the language itself and applies the locale the resolver's `humanizer_locales` declares.
 
 ## Naming clients
 

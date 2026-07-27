@@ -1,28 +1,8 @@
----
-name: humanizer-danish
-description: Anti-AI slop filter for Danish text only. Claude runs this on every piece of Danish writing before delivery: e-mails, nyhedsbreve, rapporter, notater, tilbud, oplæg, LinkedIn-opslag, sociale opslag, kursusindhold, manuskripter, hjemmesidetekst og enhver tekst der skal læses af et dansk publikum. Triggers on any request to skrive, formulere, rette, omskrive, stramme op, korrekturlæse eller humanisere dansk tekst, and on phrases such as "skriv på dansk", "oversæt til dansk", "kan du rette den her tekst", "lyder det her som AI", "gør det mere menneskeligt", and "tjek den inden jeg sender". Applies only when the output language is Danish. Never fires on English text: English writing belongs to the humanizer skill, which resolves its own locale annex. Detects Danglish, oversættelsesmønstre, nominaliseringer, kancellisprog og maskinoversat stivhed.
----
+# Humanizer-filter: dansk
 
-# Humanizer: Dansk
-
-Kør dette filter på alt dansk output, før det leveres. Ingen undtagelser. Skriv først, kør så hele filteret, lever derefter.
-
-Bemærk: dette filter gælder kun dansk tekst. Skal outputtet være på engelsk, brug humanizer-skillen i stedet. Bland aldrig de to sprog i samme dokument, samme e-mail eller samme opslag.
-
-## Hent stemmeprofilen først
-
-Søg efter filen `AI-BRAIN-INDEX.md` i det tilsluttede filarkiv. Læs YAML-blokken øverst og hent filen, der står under `resolver.files.voice_profile`. Læs den, før du skriver noget, der bærer en persons navn eller en virksomheds officielle stemme.
-
-Dette filter fjerner AI-mønstre. Stemmeprofilen tilføjer personens fingeraftryk. Til kundevendt tekst kræves begge.
-
-Stop aldrig leveringen på grund af en mislykket opslag. Kør dette filter alligevel, skriv i svaret at teksten er skrevet uden stemmeprofil, og sig hvilket trin der fejlede, for de fire har hver sin løsning:
-
-- Filarkivet kan ikke nås, eller søgningen giver intet resultat: sig at `AI-BRAIN-INDEX.md` ikke kunne findes i filarkivet. Løsningen ligger i forbindelsen til filarkivet, eller i at filen er flyttet eller omdøbt.
-- Indekset blev fundet, men det har ingen `resolver`-blok: sig at indekset blev fundet, men at det ikke peger på nogen filer. Løsningen ligger i resolver-blokken, ikke i forbindelsen.
-- Indekset blev fundet, men filen under `resolver.files.voice_profile` findes ikke: sig hvilket filnavn der manglede. Løsningen ligger i `files`-kortet i resolver-blokken, ikke i forbindelsen.
-- Indekset blev fundet, men `brain_version` er lavere end 4: sig at hjernen er ældre end denne version af pluginnet, og bed om den nye. Det kræver en ny opbygning hos den, der har leveret hjernen.
-
-Gæt aldrig på en stemme.
+Indlæses af `humanizer`-skillen, når teksten skal være på dansk. Routeren i
+`SKILL.md` har allerede hentet stemmeprofilen, før denne fil læses. Dansk tekst
+følger kun dette filter: den engelske body gælder ikke og skal ikke indlæses.
 
 ## Hvad dette er
 

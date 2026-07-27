@@ -1,6 +1,6 @@
 # Neonframe AI Brain
 
-Nine skills that make Claude work the way you do.
+Eight skills that make Claude work the way you do.
 
 Your AI Brain is a folder of plain text files in your own cloud storage. It holds how you write, how your company writes, what the business is, and the rules you want followed. These skills read it when they need it, so you never have to explain yourself twice.
 
@@ -15,8 +15,7 @@ Your AI Brain is a folder of plain text files in your own cloud storage. It hold
 | `update-my-brain` | Writes durable facts back into the brain when something changes. |
 | `offload-my-brain` | Turns a link, screenshot, article or rough note into a clean saved entry. |
 | `morning-briefing` | One page each morning: email, calendar, tasks, what needs you. |
-| `humanizer` | Strips AI tells from English writing and applies your spelling and register. |
-| `humanizer-danish` | The same, for Danish text. |
+| `humanizer` | Strips AI tells from anything you write, in English or Danish, and applies your spelling and register. |
 
 ## How they find your brain
 
@@ -42,7 +41,7 @@ No skill ever guesses at your voice or your company's facts to cover a failed lo
 
 ## Reinstalling, updating, and reading the source
 
-Everything lives at [github.com/Neonframe-Org/neonframe-ai-brain](https://github.com/Neonframe-Org/neonframe-ai-brain): the install steps, the update command, and the full readable text of all nine skills.
+Everything lives at [github.com/Neonframe-Org/neonframe-ai-brain](https://github.com/Neonframe-Org/neonframe-ai-brain): the install steps, the update command, and the full readable text of all eight skills.
 
 Support: support@neonframe.io
 
