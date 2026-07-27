@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "neonframe-ai-brain",
+  "description": "The Neonframe AI Brain plugin: skills that read your voice, your company context and your guardrails from your own AI Brain folder.",
+  "owner": {
+    "name": "Neonframe",
+    "email": "support@neonframe.io",
+    "url": "https://neonframe.io"
+  },
+  "plugins": [
+    {
+      "name": "neonframe-ai-brain",
+      "displayName": "Neonframe AI Brain",
+      "source": "./plugins/neonframe-ai-brain",
+      "description": "Nine skills that read your voice, your company context and your guardrails from your own AI Brain folder, so Claude writes and works the way you do on every device.",
+      "version": "1.0.1",
+      "author": {
+        "name": "Neonframe",
+        "url": "https://neonframe.io"
+      },
+      "homepage": "https://github.com/Neonframe-Org/neonframe-ai-brain",
+      "repository": "https://github.com/Neonframe-Org/neonframe-ai-brain",
+      "license": "UNLICENSED",
+      "category": "productivity",
+      "keywords": [
+        "ai-brain",
+        "voice",
+        "context",
+        "writing",
+        "briefing",
+        "knowledge"
+      ]
+    }
+  ]
+}
