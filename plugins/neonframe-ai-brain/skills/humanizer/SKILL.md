@@ -22,6 +22,7 @@ Spelling, vocabulary, units and register are locale decisions. Never guess them.
 6. Never block delivery on a failed lookup. Apply this shared body in full, state in the reply that US spelling has been applied as a flagged default, and name which step failed, because each one has a different fix:
    - No file store reachable, or the search returned nothing: say the AI Brain index could not be found in the file store. The fix is the connector or the index having been moved or renamed.
    - Index found, but it carries no `resolver` block or no `humanizer_locales` key: say the index was found but declares no locales. The fix is the resolver block, not the connector.
+   - Index and locales fine, but the file named at `resolver.files.voice_profile` does not resolve: say which filename was missing. The fix is the `files` map in the resolver block, not the connector. Run the locale sweep anyway; only the voice fingerprint is missing, not the spelling and register.
    Do not infer a country from a personal name, a currency symbol, a time zone, or the phrasing of the request.
 7. The annex outranks this body on spelling, vocabulary, units, money and register. Where the two appear to disagree, the annex wins.
 
