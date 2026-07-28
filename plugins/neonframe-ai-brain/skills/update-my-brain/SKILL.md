@@ -115,7 +115,7 @@ When a file stops being guesswork, raise its `status`: `draft-thin` to `draft` t
 
 A review is a sweep, not a capture, and it is worth running quarterly. Read the index and the frontmatter of each brain file first, not the full bodies, then report one short list:
 
-- How many knowledge entries exist now, and how many were added since the last review. A brain growing faster than the work it describes is hoarding.
+- Roughly how many knowledge entries the two most recent months hold, and whether that rate matches the work actually being done. A brain growing faster than the work it describes is hoarding. Scope the count to those two months: enumerating every entry ever written is the crawl the index forbids, and no headline number is worth it.
 - Files whose `last_updated` is more than 90 days old.
 - Files still marked `draft` or `draft-thin`, and what would move them to `active`.
 - Any "to confirm" item still unanswered, quoted so it can be answered on the spot.
