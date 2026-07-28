@@ -33,6 +33,24 @@ Clients on an older version keep working. Skills resolve the brain at runtime, s
 - **Minor** for a new skill, or new behaviour in an existing one.
 - **Major** for a change that requires something new in the brain, for example a new resolver key. A major release means older brains genuinely cannot serve it, so it needs a rebuild plan before it ships.
 
+## 1.1.1, 2026-07-29
+
+Fixes from the second independent QA pass, which reviewed 1.1.0 as a duo: one reviewer walking the system as designed, one attacking it. Nothing here changes the brain, so no client needs a rebuild.
+
+**Client-facing corrections**
+
+- Both READMEs listed three failure branches where every skill produces four. The missing one is the case where the index is found but declares no `resolver` block, which has a different fix from a missing file and a different fix again from a dead connector. The 1.1.0 entry below claimed the READMEs already matched. They did not.
+- The root README documented two install routes while the repository shipped the artifacts for three. `dist/skills-v1.1.1/` now has a section explaining what it is and when to use it, the same gap 1.0.2 closed for the offline plugin zip.
+- The plugin README now names all three routes in order, best first.
+
+**Skill content**
+
+- `humanizer`: the merge in 1.1.0 dropped two Danish trigger phrases, "oversæt til dansk" and "kan du rette den her tekst", and the Danglish detection clause. All three are restored, the Danish document nouns are back, and the Danish half now reads as a peer of the English half rather than a sentence appended to it. The description is 994 characters, inside the 1024 limit.
+- `offload-my-brain`: gained the search-before-write step and the do-not-capture rule that `update-my-brain` got in 1.1.0. It was the omission that mattered most, because adding entries on demand is the whole point of that skill, so it is the fastest way to grow a brain past the point anyone reads it.
+- `update-my-brain`: the quarterly review asked for a total entry count and a count "since the last review". Nothing records when the last review ran, and counting every entry means the folder crawl the index forbids. Scoped to the two most recent months, which is answerable.
+
+**The 1.1.0 context claim was wrong and is corrected below.**
+
 ## 1.1.0, 2026-07-28
 
 The two humanizers become one. New housekeeping rules so a brain stops growing without bound, and a stated boundary with Claude's own memory.
@@ -40,7 +58,7 @@ The two humanizers become one. New housekeeping rules so a brain stops growing w
 **Eight skills, not nine**
 
 - `humanizer` and `humanizer-danish` are now a single `humanizer`. `SKILL.md` is a router: it resolves the brain, works out the output language, then loads exactly one body from its own references folder, `english.md` or `dansk.md`. English also loads its locale annex as before.
-- This is strictly better than shipping both. Every client used to carry two skill descriptions in context on every turn, one of them a long Danish trigger list they would never use, and an English-only client saw a Danish skill in their plugin list. The router is 4.9k where the old English skill alone was 17k, because the bulk now loads only when it applies.
+- The win is at the always-loaded layer. Skill metadata sits in the system prompt on every turn, the body loads only on trigger, and files under `references/` only when read. Merging took one whole description, about 850 characters, out of every turn of every client's session, and an English-only client stopped seeing a Danish skill in their plugin list.
 - It also removes a cross-skill dependency that could break: the English humanizer used to say "Danish belongs to the other skill", which was wrong the moment that skill was missing.
 - `write-as-me`, `company-voice` and `morning-briefing` now just say "run the humanizer" rather than picking between two.
 

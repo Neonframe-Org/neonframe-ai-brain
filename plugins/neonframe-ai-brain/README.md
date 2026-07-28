@@ -34,14 +34,17 @@ Two things follow from that. Keep the index at the top level of the folder and k
 A skill that cannot reach your brain says which step failed, because each one has a different fix:
 
 - **The index was not found in your file store.** Either the connector is disconnected, or `AI-BRAIN-INDEX.md` has been renamed or moved out of the top level of the folder.
+- **The index was found, but it declares no `resolver` block.** The file is reachable, but the block every skill reads is missing or incomplete. That needs whoever built your brain, not your connector.
 - **The index was found, but a file it names is missing.** The fix is the `resolver` block inside the index, not the connector.
 - **Your brain is older than the plugin expects.** Get in touch and we will bring it up to date.
 
 No skill ever guesses at your voice or your company's facts to cover a failed lookup.
 
-## Reinstalling, updating, and reading the source
+## Installing, reinstalling, updating, and reading the source
 
 Everything lives at [github.com/Neonframe-Org/neonframe-ai-brain](https://github.com/Neonframe-Org/neonframe-ai-brain): the install steps, the update command, and the full readable text of all eight skills.
+
+There are three ways in, best first. Add the marketplace, which is one step and keeps itself current. Upload the plugin `.zip` by hand, if your network blocks GitHub. Or, only if that is blocked too, add the eight skills one archive at a time from `setup/offline-skills/`. Neither hand-upload route updates itself, so move to the marketplace when your network allows.
 
 Support: support@neonframe.io
 

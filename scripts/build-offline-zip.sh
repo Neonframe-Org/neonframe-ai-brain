@@ -37,6 +37,41 @@ if [ "$VERSION" != "$MKT_VERSION" ]; then
   exit 1
 fi
 
+# Every skill must carry a name and a description, and the description has a hard 1024
+# character limit (platform.claude.com/docs/en/agents-and-tools/agent-skills/overview).
+# An over-long description is invalid and there is nothing downstream that would catch it,
+# so check here rather than discover it after publishing.
+python3 - "$PLUGIN_DIR" <<'PYVALIDATE'
+import pathlib, re, sys
+
+plugin_dir = pathlib.Path(sys.argv[1])
+skills = sorted(p for p in (plugin_dir / "skills").iterdir() if p.is_dir())
+problems = []
+for s in skills:
+    skill_md = s / "SKILL.md"
+    if not skill_md.is_file():
+        problems.append(f"{s.name}: no SKILL.md")
+        continue
+    text = skill_md.read_text(encoding="utf-8")
+    name = re.search(r"^name:\s*(.+)$", text, re.M)
+    desc = re.search(r"^description:\s*(.+)$", text, re.M)
+    if not name:
+        problems.append(f"{s.name}: no name in frontmatter")
+    elif name.group(1).strip() != s.name:
+        problems.append(f"{s.name}: frontmatter name is {name.group(1).strip()!r}")
+    if not desc:
+        problems.append(f"{s.name}: no description in frontmatter")
+    elif len(desc.group(1)) > 1024:
+        problems.append(f"{s.name}: description is {len(desc.group(1))} chars, limit is 1024")
+
+print(f"Validated {len(skills)} skills: " + ", ".join(s.name for s in skills))
+if problems:
+    print("ERROR: plugin validation failed.", file=sys.stderr)
+    for p in problems:
+        print(f"  - {p}", file=sys.stderr)
+    sys.exit(1)
+PYVALIDATE
+
 OUT="dist/neonframe-ai-brain-v${VERSION}.zip"
 mkdir -p dist
 rm -f "$OUT"
@@ -57,9 +92,10 @@ unzip -l "$OUT" | head -12
 # Upload a skill. Each archive wraps ONE directory named exactly for the skill, holding
 # its SKILL.md and any references it loads, which is the layout that uploader expects.
 #
-# It is genuinely worse than the other two routes and the docs say so: it is one upload
-# per skill, nothing auto-updates, and Anthropic documents the route most clearly for
-# Cowork rather than for chat on web and desktop. Use it only when the first two fail.
+# It is genuinely worse than the other two routes: it is one upload per skill and nothing
+# added this way auto-updates. The menu path itself is the documented one for claude.ai
+# (support.claude.com "How to create custom skills"), and that personal skill library is
+# shared with Cowork. Use it only when the first two routes fail.
 SKILLS_OUT="dist/skills-v${VERSION}"
 rm -rf "$SKILLS_OUT"
 mkdir -p "$SKILLS_OUT"

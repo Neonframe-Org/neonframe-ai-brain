@@ -49,6 +49,19 @@ It has to be the `.zip`. The uploader rejects a `.plugin` file with an unhelpful
 
 One tradeoff: a hand-uploaded plugin doesn't update itself. When there's a new version you upload the new `.zip` the same way. Installing from the marketplace is better whenever your network allows it.
 
+### If the plugin upload is blocked too
+
+Last resort, and only when both routes above have failed. The same eight skills are also published one archive per skill, so they can be added individually.
+
+1. Your setup folder has them, at `setup/offline-skills/`. If you don't have that folder, the same eight files are in [`dist/skills-v1.1.1/`](dist/skills-v1.1.1/) here.
+2. In the Claude app, go to **Customize > Skills**.
+3. Click **+**, then **Create skill**, then **Upload a skill**, and pick one `.zip`.
+4. Repeat for all eight.
+
+Add all eight. The skills expect each other: `write-as-me` and `company-voice` both hand off to `humanizer`, and `company-safety` is meant to apply on every task. A partial set behaves in ways that are hard to explain later.
+
+Same tradeoff as above, one per skill: nothing added this way updates itself. Move to the marketplace as soon as your network allows.
+
 ## Before you install, read what you're installing
 
 Claude will warn you that plugins from marketplaces aren't controlled by Anthropic. That warning is correct and you should take it seriously, including with ours.
@@ -104,6 +117,7 @@ Updating never touches your AI Brain. The skills and your files are independent 
 A skill that can't reach your brain will say which step failed, because each one has a different fix:
 
 - **The index wasn't found in your file store.** Either the connector is disconnected, or `AI-BRAIN-INDEX.md` has been renamed or moved out of the top level of the folder.
+- **The index was found, but it declares no `resolver` block.** The file is reachable, but the block every skill reads is missing or incomplete. That needs whoever built your brain, not your connector.
 - **The index was found, but a file it names is missing.** The fix is the `resolver` block inside the index, not the connector. Correct the filename there.
 - **Your brain is older than the plugin expects.** Get in touch and we'll bring it up to date.
 
