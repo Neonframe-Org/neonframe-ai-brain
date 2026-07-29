@@ -33,6 +33,18 @@ Clients on an older version keep working. Skills resolve the brain at runtime, s
 - **Minor** for a new skill, or new behaviour in an existing one.
 - **Major** for a change that requires something new in the brain, for example a new resolver key. A major release means older brains genuinely cannot serve it, so it needs a rebuild plan before it ships.
 
+## 1.1.2, 2026-07-29
+
+**Four of the eight skills have never triggered.** Fixed. This is the most serious defect found in either QA pass and it shipped in every release from 1.0.1 onward.
+
+`company-context`, `company-voice`, `offload-my-brain` and `write-as-me` each had a `description` written as an unquoted YAML scalar containing a colon followed by a space, for example "anything going out under their own name: emails, replies". YAML reads that as the start of a nested mapping, so the whole frontmatter block failed to parse. When it fails, every field is dropped, including `name` and `description`. A skill with no description has nothing for Claude to match a request against, so those four could never fire. The four that happened to contain no colon-space worked normally, which is why the plugin looked half-functional rather than broken.
+
+Nothing surfaced it. The frontmatter looks correct to a reader, the files are valid Markdown, the plugin installs cleanly, and the QA gate checks brains rather than the plugin. Two independent reviewers read these files and missed it. `claude plugin validate` catches it immediately, and was not being run.
+
+The fix rewrites the four descriptions to avoid colon-space entirely, matching the four that already parsed, rather than adding quoting that a future edit could break again.
+
+`scripts/build-offline-zip.sh` now **parses** frontmatter with a real YAML parser on every build and fails the build on an unparseable block, a name that does not match its directory, or a description over 1024 characters. The previous check used a regex on `^description:`, which matched all four broken files happily. A regex is not a parser, and that is exactly how this reached production.
+
 ## 1.1.1, 2026-07-29
 
 Fixes from the second independent QA pass, which reviewed 1.1.0 as a duo: one reviewer walking the system as designed, one attacking it. Nothing here changes the brain, so no client needs a rebuild.
