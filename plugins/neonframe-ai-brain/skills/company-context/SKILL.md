@@ -1,6 +1,6 @@
 ---
 name: company-context
-description: Loads the company's business context from the user's AI Brain: what the business is, who it serves, its clients, market position, leadership, track record, tools and locale conventions. Use for any task that needs the business rather than just the voice: strategy, client and pitch work, competitor questions, new business, pricing questions, hiring, commercial decisions, briefings, research. Triggers when the user asks about their business, a client, a competitor or the market, or says "give me context", "what do we know about", "help me think through this", "brief me before this meeting", "who are we up against". This skill loads facts. For writing in the company's name, use company-voice.
+description: Loads the company's business context from the user's AI Brain, covering what the business is, who it serves, its clients, market position, leadership, track record, tools and locale conventions. Use for any task that needs the business rather than just the voice, such as strategy, client and pitch work, competitor questions, new business, pricing questions, hiring, commercial decisions, briefings, research. Triggers when the user asks about their business, a client, a competitor or the market, or says "give me context", "what do we know about", "help me think through this", "brief me before this meeting", "who are we up against". This skill loads facts. For writing in the company's name, use company-voice.
 ---
 
 # Load the business context

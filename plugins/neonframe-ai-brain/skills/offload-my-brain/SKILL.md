@@ -1,6 +1,6 @@
 ---
 name: offload-my-brain
-description: Turns anything worth keeping into a clean knowledge entry and saves it to the user's one knowledge home. Handles many formats: URLs, pasted text, screenshots, images, documents, spreadsheets, voice notes, rough thoughts. Triggers on "offload my brain", "brain dump", "save to knowledge", "add to knowledge", "log this", "keep this for later", "file this", or when a URL, screenshot, article, file or rough note is shared with any of those phrases nearby. Saves the entry rather than only summarising it.
+description: Turns anything worth keeping into a clean knowledge entry and saves it to the user's one knowledge home. Handles many formats, including URLs, pasted text, screenshots, images, documents, spreadsheets, voice notes, rough thoughts. Triggers on "offload my brain", "brain dump", "save to knowledge", "add to knowledge", "log this", "keep this for later", "file this", or when a URL, screenshot, article, file or rough note is shared with any of those phrases nearby. Saves the entry rather than only summarising it.
 ---
 
 # Offload the brain

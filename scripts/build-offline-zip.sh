@@ -41,8 +41,21 @@ fi
 # character limit (platform.claude.com/docs/en/agents-and-tools/agent-skills/overview).
 # An over-long description is invalid and there is nothing downstream that would catch it,
 # so check here rather than discover it after publishing.
+# Frontmatter must be PARSED, not pattern-matched. A regex on ^description: happily matches
+# a line that YAML cannot read, which is how four of eight skills shipped from 1.0.1 to 1.1.1
+# with unparseable frontmatter: an unquoted description containing ": " reads as a nested
+# mapping, the whole block fails, every field is silently dropped, and the skill never
+# triggers because it has no description to match against. Nothing surfaced it until
+# `claude plugin validate` was run by hand. Parse it here, every build.
 python3 - "$PLUGIN_DIR" <<'PYVALIDATE'
-import pathlib, re, sys
+import pathlib, sys
+
+try:
+    import yaml
+except ImportError:
+    print("ERROR: PyYAML is required to validate skill frontmatter. pip3 install pyyaml",
+          file=sys.stderr)
+    sys.exit(1)
 
 plugin_dir = pathlib.Path(sys.argv[1])
 skills = sorted(p for p in (plugin_dir / "skills").iterdir() if p.is_dir())
@@ -53,18 +66,36 @@ for s in skills:
         problems.append(f"{s.name}: no SKILL.md")
         continue
     text = skill_md.read_text(encoding="utf-8")
-    name = re.search(r"^name:\s*(.+)$", text, re.M)
-    desc = re.search(r"^description:\s*(.+)$", text, re.M)
+    if not text.startswith("---"):
+        problems.append(f"{s.name}: SKILL.md does not open with a --- frontmatter fence")
+        continue
+    end = text.find("\n---", 3)
+    if end == -1:
+        problems.append(f"{s.name}: frontmatter fence is never closed")
+        continue
+    try:
+        fm = yaml.safe_load(text[4:end])
+    except yaml.YAMLError as e:
+        first = str(e).splitlines()[0]
+        problems.append(f"{s.name}: frontmatter is not valid YAML ({first}). "
+                        f"Usually an unquoted value containing ': '. At runtime every field "
+                        f"is dropped and the skill never triggers.")
+        continue
+    if not isinstance(fm, dict):
+        problems.append(f"{s.name}: frontmatter parsed as {type(fm).__name__}, not a mapping")
+        continue
+    name, desc = fm.get("name"), fm.get("description")
     if not name:
         problems.append(f"{s.name}: no name in frontmatter")
-    elif name.group(1).strip() != s.name:
-        problems.append(f"{s.name}: frontmatter name is {name.group(1).strip()!r}")
+    elif name != s.name:
+        problems.append(f"{s.name}: frontmatter name is {name!r}, must match the directory")
     if not desc:
         problems.append(f"{s.name}: no description in frontmatter")
-    elif len(desc.group(1)) > 1024:
-        problems.append(f"{s.name}: description is {len(desc.group(1))} chars, limit is 1024")
+    elif len(desc) > 1024:
+        problems.append(f"{s.name}: description is {len(desc)} chars, limit is 1024")
 
-print(f"Validated {len(skills)} skills: " + ", ".join(s.name for s in skills))
+print(f"Validated {len(skills)} skills, frontmatter parsed as YAML: "
+      + ", ".join(s.name for s in skills))
 if problems:
     print("ERROR: plugin validation failed.", file=sys.stderr)
     for p in problems:
