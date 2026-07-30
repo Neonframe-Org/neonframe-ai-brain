@@ -35,11 +35,15 @@ Clients on an older version keep working. Skills resolve the brain at runtime, s
 
 ## 1.1.2, 2026-07-29
 
-**Four of the eight skills have never triggered.** Fixed. This is the most serious defect found in either QA pass and it shipped in every release from 1.0.1 onward.
+**Four of the eight skills had malformed frontmatter that `claude plugin validate` rejects.** Fixed. Present in every release from 1.0.1 onward.
 
-`company-context`, `company-voice`, `offload-my-brain` and `write-as-me` each had a `description` written as an unquoted YAML scalar containing a colon followed by a space, for example "anything going out under their own name: emails, replies". YAML reads that as the start of a nested mapping, so the whole frontmatter block failed to parse. When it fails, every field is dropped, including `name` and `description`. A skill with no description has nothing for Claude to match a request against, so those four could never fire. The four that happened to contain no colon-space worked normally, which is why the plugin looked half-functional rather than broken.
+**Correction, 2026-07-30.** This entry originally said those four skills "have never triggered". That was wrong, and the claim was never tested. It came from `claude plugin validate`, which reports the defect as fatal and states that at runtime the skill "loads with empty metadata (all frontmatter fields silently dropped)". The current runtime does not behave that way. Three skills in `neonframe-katrine-skills` carry the identical malformation and load in live sessions with their full descriptions intact, colon and all, byte-identical to what is on disk. So the validator's prediction about runtime does not match observed runtime. Treat this release as spec conformance and future-proofing, not an outage fix: no client lost any skill, and nobody on an older version needs to be contacted about missing functionality.
 
-Nothing surfaced it. The frontmatter looks correct to a reader, the files are valid Markdown, the plugin installs cleanly, and the QA gate checks brains rather than the plugin. Two independent reviewers read these files and missed it. `claude plugin validate` catches it immediately, and was not being run.
+`company-context`, `company-voice`, `offload-my-brain` and `write-as-me` each had a `description` written as an unquoted YAML scalar containing a colon followed by a space, for example "anything going out under their own name: emails, replies". Strict YAML reads that as the start of a nested mapping, so the block fails to parse in any spec-conformant parser, `claude plugin validate` included. The four that happened to contain no colon-space parsed cleanly.
+
+Why fix it anyway, given the runtime tolerates it: the files were out of spec, the official validator fails on them, and the leniency is undocumented behaviour that could tighten in any release. A skill whose metadata depends on a lenient parser is one loader change away from going quiet. Cheap to fix now, expensive to diagnose later.
+
+Nothing surfaced it for a long time. The frontmatter looks correct to a reader, the files are valid Markdown, the plugin installs cleanly, and the QA gate checks brains rather than the plugin. Two independent reviewers read these files and missed it. `claude plugin validate` catches it immediately, and was not being run.
 
 The fix rewrites the four descriptions to avoid colon-space entirely, matching the four that already parsed, rather than adding quoting that a future edit could break again.
 
