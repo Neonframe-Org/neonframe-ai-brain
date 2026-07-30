@@ -42,11 +42,13 @@ fi
 # An over-long description is invalid and there is nothing downstream that would catch it,
 # so check here rather than discover it after publishing.
 # Frontmatter must be PARSED, not pattern-matched. A regex on ^description: happily matches
-# a line that YAML cannot read, which is how four of eight skills shipped from 1.0.1 to 1.1.1
-# with unparseable frontmatter: an unquoted description containing ": " reads as a nested
-# mapping, the whole block fails, every field is silently dropped, and the skill never
-# triggers because it has no description to match against. Nothing surfaced it until
-# `claude plugin validate` was run by hand. Parse it here, every build.
+# a line that strict YAML cannot read, which is how four of eight skills shipped from 1.0.1
+# to 1.1.1 out of spec: an unquoted description containing ": " reads as the start of a
+# nested mapping, so the block fails in any conformant parser and in `claude plugin validate`.
+# Note what this check is and is not. The current runtime loader is lenient and does load
+# those descriptions intact, so this is spec conformance and future-proofing, not an outage
+# guard. Keep it strict anyway: the leniency is undocumented, and a skill whose metadata
+# survives only by a tolerant parser is one loader change away from going quiet.
 python3 - "$PLUGIN_DIR" <<'PYVALIDATE'
 import pathlib, sys
 
