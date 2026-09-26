@@ -17,7 +17,21 @@ Read the index once per session. Skip this if it has already been read in this s
 4. If two indexes come back, use the one with the highest `brain_version`.
 5. Never open anything under `setup/`. That folder is onboarding, not context, and may be deleted.
 
-Fetch `files.company_context` for the tools and environment section, `files.safety_rules` always, and `files.voice_profile` before drafting any reply.
+## Resolve the company layer
+
+Some brains split company truth from personal truth. When the `resolver` block carries a `company_layer` block, the company's facts, voice, prices and shared knowledge live in the tool it names, not in the brain folder. Read the block; never hardcode a page.
+
+- `company_layer.tool`: the connected tool holding the company layer, for example Notion.
+- `company_layer.entry`: the entry page. It maps every company topic. Read it once per session when a task needs the company.
+- `company_layer.company_context`: what the company is, who it serves, the team, systems of record, tool stack. Use it wherever this skill says `files.company_context`.
+- `company_layer.company_voice`: how the company writes. Use it wherever this skill says `files.company_voice`.
+- `company_layer.pricing`: the only place prices, durations and inclusions live. Fetch it every time a task needs a figure. Never quote a price from memory, from the brain, or from any other page.
+- `company_layer.knowledge`: the shared team knowledge base.
+- `company_layer.operating_rules`: dated company decisions and process rules.
+
+When `company_layer` is present, the brain files named at `files.company_context` and `files.company_voice` are short pointers plus the person's own notes. Read them too; they are short. When `company_layer` is absent, everything lives in the brain folder and nothing here changes. If the tool named in `company_layer.tool` is not connected, say so, fall back to the brain files, and flag that company facts may be stale.
+
+Fetch the company context for the tools and environment section (`company_layer.company_context` when present, otherwise `files.company_context`), `files.safety_rules` always, and `files.voice_profile` before drafting any reply.
 
 ## Step 0: set the lookback window
 

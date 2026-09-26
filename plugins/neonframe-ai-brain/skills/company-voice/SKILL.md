@@ -17,12 +17,27 @@ Read the index once per session. Skip this if it has already been read in this s
 4. If two indexes come back, use the one with the highest `brain_version`.
 5. Never open anything under `setup/`. That folder is onboarding, not context, and may be deleted.
 
+## Resolve the company layer
+
+Some brains split company truth from personal truth. When the `resolver` block carries a `company_layer` block, the company's facts, voice, prices and shared knowledge live in the tool it names, not in the brain folder. Read the block; never hardcode a page.
+
+- `company_layer.tool`: the connected tool holding the company layer, for example Notion.
+- `company_layer.entry`: the entry page. It maps every company topic. Read it once per session when a task needs the company.
+- `company_layer.company_context`: what the company is, who it serves, the team, systems of record, tool stack. Use it wherever this skill says `files.company_context`.
+- `company_layer.company_voice`: how the company writes. Use it wherever this skill says `files.company_voice`.
+- `company_layer.pricing`: the only place prices, durations and inclusions live. Fetch it every time a task needs a figure. Never quote a price from memory, from the brain, or from any other page.
+- `company_layer.knowledge`: the shared team knowledge base.
+- `company_layer.operating_rules`: dated company decisions and process rules.
+
+When `company_layer` is present, the brain files named at `files.company_context` and `files.company_voice` are short pointers plus the person's own notes. Read them too; they are short. When `company_layer` is absent, everything lives in the brain folder and nothing here changes. If the tool named in `company_layer.tool` is not connected, say so, fall back to the brain files, and flag that company facts may be stale.
+
 ## Fetch in this order
 
-1. `files.company_voice`. Always.
-2. `files.company_context`. When the piece needs facts about the business: a pitch, a case study, credentials.
-3. `files.voice_profile`. As well, when the piece carries the user's signature.
-4. `files.safety_rules`. Always.
+1. The company voice. `company_layer.company_voice` when present, otherwise `files.company_voice`. Always.
+2. The company context. `company_layer.company_context` when present, otherwise `files.company_context`. When the piece needs facts about the business: a pitch, a case study, credentials.
+3. `company_layer.pricing`, only when the piece carries a price, duration or inclusion. Fetch it; never quote from memory.
+4. `files.voice_profile`. As well, when the piece carries the user's signature.
+5. `files.safety_rules`. Always.
 5. If a specific client is named, search the folder named at `folders.clients` for that client's context file and read it before writing a word about them.
 
 ## Then write

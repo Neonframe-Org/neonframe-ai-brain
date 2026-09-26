@@ -17,17 +17,32 @@ Read the index once per session. Skip this if it has already been read in this s
 4. If two indexes come back, use the one with the highest `brain_version`.
 5. Never open anything under `setup/`. That folder is onboarding, not context, and may be deleted.
 
+## Resolve the company layer
+
+Some brains split company truth from personal truth. When the `resolver` block carries a `company_layer` block, the company's facts, voice, prices and shared knowledge live in the tool it names, not in the brain folder. Read the block; never hardcode a page.
+
+- `company_layer.tool`: the connected tool holding the company layer, for example Notion.
+- `company_layer.entry`: the entry page. It maps every company topic. Read it once per session when a task needs the company.
+- `company_layer.company_context`: what the company is, who it serves, the team, systems of record, tool stack. Use it wherever this skill says `files.company_context`.
+- `company_layer.company_voice`: how the company writes. Use it wherever this skill says `files.company_voice`.
+- `company_layer.pricing`: the only place prices, durations and inclusions live. Fetch it every time a task needs a figure. Never quote a price from memory, from the brain, or from any other page.
+- `company_layer.knowledge`: the shared team knowledge base.
+- `company_layer.operating_rules`: dated company decisions and process rules.
+
+When `company_layer` is present, the brain files named at `files.company_context` and `files.company_voice` are short pointers plus the person's own notes. Read them too; they are short. When `company_layer` is absent, everything lives in the brain folder and nothing here changes. If the tool named in `company_layer.tool` is not connected, say so, fall back to the brain files, and flag that company facts may be stale.
+
 ## Fetch in this order
 
-1. `files.company_context`. For anything about the business itself.
-2. `files.about_me`. When the question is about the user's role, priorities, or how they work.
-3. `files.safety_rules`. Always.
+1. The company context. When `company_layer` is present, read `company_layer.entry` once, then `company_layer.company_context`; the brain file at `files.company_context` is then a short pointer, read it for the person's own notes. When `company_layer` is absent, `files.company_context` is the whole thing.
+2. `company_layer.pricing`, only when the task needs a price, duration or inclusion. Fetch it every time. Never quote a figure from memory or from the brain.
+3. `files.about_me`. When the question is about the user's role, priorities, or how they work.
+4. `files.safety_rules`. Always.
 
 Then, only when the task points at them:
 
-- A named client: search the folder named at `folders.clients` for that client's context file and any dated notes.
+- A named client: search the folder named at `folders.clients` for that client's context file and any dated notes. If the brain says client context is not held there, use the CRM the company context names.
 - A named project: search the folder named at `folders.projects` for that project's folder.
-- Background, or a decision already taken: search the resolved knowledge home by topic, primary then fallback, most recent month first.
+- Background, or a decision already taken: search `company_layer.operating_rules` and `company_layer.knowledge` when present for company decisions and research, and the resolved knowledge home for the person's own, most recent first. Search both layers before saying something is not recorded.
 - A recurring document type: check the folder named at `folders.templates` before building a structure from scratch.
 
 Load only what the task needs. Do not crawl the brain.
@@ -56,7 +71,7 @@ Apply the conventions recorded in the company context file to any figure or time
 
 ## Tools
 
-When a task needs a tool, read the tools and environment section of the company context file and use the tool named there. Do not substitute a tool that is not part of the user's stack.
+When a task needs a tool, read the tools and environment section of the company context (the `company_layer.company_context` page when present, otherwise the brain file) and use the tool named there. Do not substitute a tool that is not part of the user's stack.
 
 ## When the brain does not resolve
 

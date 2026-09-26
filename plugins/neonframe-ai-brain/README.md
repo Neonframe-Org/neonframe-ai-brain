@@ -23,6 +23,10 @@ Every skill looks for one file: `AI-BRAIN-INDEX.md` in your AI Brain folder. Tha
 
 Two things follow from that. Keep the index at the top level of the folder and keep its name exactly as it is. And if you rename any other file in the brain, update the index to match, and everything keeps working.
 
+## Two layers, if you want them
+
+Some teams keep the company's facts somewhere the whole team reads, such as a Notion workspace, and keep the personal files in the brain folder. The index can say so with an optional `company_layer` block naming the pages for the company context, the company voice, the prices, the operating rules and the shared knowledge base. When the block is there, the skills read the company from those pages and the person from the folder. When it is not, everything lives in the folder and nothing changes. Prices always come from the one page the block names, fetched every time, never quoted from memory.
+
 ## What they never do
 
 - They hold no copy of your information. Everything is read from your folder at the moment it is needed, so editing a file updates every device at once with nothing to reinstall.
