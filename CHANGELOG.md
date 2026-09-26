@@ -33,6 +33,26 @@ Clients on an older version keep working. Skills resolve the brain at runtime, s
 - **Minor** for a new skill, or new behaviour in an existing one.
 - **Major** for a change that requires something new in the brain, for example a new resolver key. A major release means older brains genuinely cannot serve it, so it needs a rebuild plan before it ships.
 
+## 1.2.0, 2026-09-26
+
+**New: the company layer.** A brain can now split company truth from personal truth. When the index's `resolver` block carries an optional `company_layer` block, the seven skills that touch the company read facts, voice, prices and shared knowledge from the tool it names (Notion, in the first brain to use it) instead of from the brain folder. The block names the tool, an entry page, and pages for `company_context`, `company_voice`, `pricing`, `services`, `operating_rules` and `knowledge`. Skills read the URLs from the block and never hardcode a page.
+
+Why: the same company fact was living in a Drive file, a Notion page, a chat memory and an old proposal, and the four drifted. One home per fact, in the layer the whole team can read, is the fix. Prices in particular now have exactly one page, and every skill that could quote a figure fetches that page every time.
+
+What changes for a brain without the block: nothing. `files.company_context` and `files.company_voice` keep working exactly as before. That is why this is a minor release and not a major one: no resolver key is required, so no client brain needs a rebuild.
+
+What changes for a brain with the block:
+
+- `company-context`, `company-voice`, `write-as-me`, `morning-briefing` read the company pages named in the block and treat the two brain files as pointers plus the person's own notes.
+- `update-my-brain` routes a company fact, a voice correction, a process decision or team research to the company layer, and a pricing change to the pricing page; the person's own preferences and anything confidential stay in the brain folder. The "which layer" test lives in the conventions file.
+- `offload-my-brain` decides the layer before saving an entry.
+- `company-safety` still fetches the safety rules from the brain folder; safety rules are personal to the account holder and never move.
+- Every skill says so and falls back to the brain files if the named tool is not connected.
+
+`humanizer` is unchanged.
+
+The first brain on the new shape is Katrine's, split on 2026-09-26: company pages under a "Neonframe Brain" entry page in Notion, personal files unchanged in Drive.
+
 ## 1.1.2, 2026-07-29
 
 **Four of the eight skills had malformed frontmatter that `claude plugin validate` rejects.** Fixed. Present in every release from 1.0.1 onward.

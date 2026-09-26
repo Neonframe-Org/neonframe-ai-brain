@@ -17,6 +17,20 @@ Read the index once per session. Skip this if it has already been read in this s
 4. If two indexes come back, use the one with the highest `brain_version`.
 5. Never open anything under `setup/`. That folder is onboarding, not context, and may be deleted.
 
+## Resolve the company layer
+
+Some brains split company truth from personal truth. When the `resolver` block carries a `company_layer` block, the company's facts, voice, prices and shared knowledge live in the tool it names, not in the brain folder. Read the block; never hardcode a page.
+
+- `company_layer.tool`: the connected tool holding the company layer, for example Notion.
+- `company_layer.entry`: the entry page. It maps every company topic. Read it once per session when a task needs the company.
+- `company_layer.company_context`: what the company is, who it serves, the team, systems of record, tool stack. Use it wherever this skill says `files.company_context`.
+- `company_layer.company_voice`: how the company writes. Use it wherever this skill says `files.company_voice`.
+- `company_layer.pricing`: the only place prices, durations and inclusions live. Fetch it every time a task needs a figure. Never quote a price from memory, from the brain, or from any other page.
+- `company_layer.knowledge`: the shared team knowledge base.
+- `company_layer.operating_rules`: dated company decisions and process rules.
+
+When `company_layer` is present, the brain files named at `files.company_context` and `files.company_voice` are short pointers plus the person's own notes. Read them too; they are short. When `company_layer` is absent, everything lives in the brain folder and nothing here changes. If the tool named in `company_layer.tool` is not connected, say so, fall back to the brain files, and flag that company facts may be stale.
+
 Fetch `files.knowledge_note` for the filing conventions of the knowledge folder.
 
 ## Resolve the knowledge home
@@ -28,6 +42,7 @@ Read `knowledge_home` from the `resolver` block in the index before writing or r
 3. Read `primary` first and then `fallback`, always both, never only one. Anyone who changed tools mid engagement has older entries sitting in the other home, so run the second search even when the first returns results: silently missing half the knowledge costs more than one extra search.
 4. Only after a write genuinely fails: say plainly that the save did not go through, then hand back the finished entry as text ready to paste, with the exact target name. Never offer paste as a shortcut instead of attempting the write.
 5. Never default to a tool that `knowledge_home` does not name.
+6. When `company_layer` is present, decide the layer first. Research, a teardown, a framework or a decision the whole team should have goes to `company_layer.knowledge` (research) or `company_layer.operating_rules` (decisions and processes). The person's own learning, preferences and anything confidential go to `knowledge_home`. When unsure, the personal home, then say so.
 
 ## Step 1: gather the content
 

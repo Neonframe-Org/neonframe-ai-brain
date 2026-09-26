@@ -17,6 +17,20 @@ Read the index once per session. Skip this if it has already been read in this s
 4. If two indexes come back, use the one with the highest `brain_version`.
 5. Never open anything under `setup/`. That folder is onboarding, not context, and may be deleted.
 
+## Resolve the company layer
+
+Some brains split company truth from personal truth. When the `resolver` block carries a `company_layer` block, the company's facts, voice, prices and shared knowledge live in the tool it names, not in the brain folder. Read the block; never hardcode a page.
+
+- `company_layer.tool`: the connected tool holding the company layer, for example Notion.
+- `company_layer.entry`: the entry page. It maps every company topic. Read it once per session when a task needs the company.
+- `company_layer.company_context`: what the company is, who it serves, the team, systems of record, tool stack. Use it wherever this skill says `files.company_context`.
+- `company_layer.company_voice`: how the company writes. Use it wherever this skill says `files.company_voice`.
+- `company_layer.pricing`: the only place prices, durations and inclusions live. Fetch it every time a task needs a figure. Never quote a price from memory, from the brain, or from any other page.
+- `company_layer.knowledge`: the shared team knowledge base.
+- `company_layer.operating_rules`: dated company decisions and process rules.
+
+When `company_layer` is present, the brain files named at `files.company_context` and `files.company_voice` are short pointers plus the person's own notes. Read them too; they are short. When `company_layer` is absent, everything lives in the brain folder and nothing here changes. If the tool named in `company_layer.tool` is not connected, say so, fall back to the brain files, and flag that company facts may be stale.
+
 ## Capture as it happens
 
 Watch every session for these signals. When one appears, write it. Do not ask first and do not queue it for the end. The right hand column names the resolver key, so fetch the filename it points to.
@@ -25,13 +39,15 @@ Watch every session for these signals. When one appears, write it. Do not ask fi
 |---|---|
 | Rewrote your draft, rejected a word, said "I'd never say that" or "too formal" | `files.voice_profile` |
 | Changed how you should approach a task, or stated a working preference | `files.about_me` |
-| Feedback on a pitch, proposal, case study, or anything in the company's name | `files.company_voice` |
-| A new or lost client, a service, positioning, team or tool change | `files.company_context` |
-| A pricing change | `files.company_context`, the current rates pointer only. Never write the figure itself |
+| Feedback on a pitch, proposal, case study, or anything in the company's name | `company_layer.company_voice` when present, otherwise `files.company_voice` |
+| A new or lost client, a service, positioning, team or tool change | `company_layer.company_context` when present, otherwise `files.company_context` |
+| A pricing change | `company_layer.pricing` when present: correct the page. Otherwise the current rates pointer in `files.company_context` only. Never write a figure into the brain |
 | A new confidentiality constraint, or a client's own policy on AI use | `files.safety_rules` |
-| A detail about a named client worth keeping | A `[ClientName]/` context file inside the folder named at `folders.clients` |
-| A decision, insight, or piece of research worth keeping | The resolved knowledge home |
-| A project or engagement ended, or a pitch was won or lost | The resolved knowledge home, as an outcome entry |
+| A detail about a named client worth keeping | A `[ClientName]/` context file inside the folder named at `folders.clients`. If the brain says client context is not held there, the CRM named in the company context |
+| A company decision, process rule or way of working | `company_layer.operating_rules` when present, otherwise the resolved knowledge home |
+| Research or a reference the whole team should have | `company_layer.knowledge` when present, otherwise the resolved knowledge home |
+| The person's own decision, insight, learning or working note | The resolved knowledge home |
+| A project or engagement ended, or a pitch was won or lost | `company_layer.operating_rules` when present, otherwise the resolved knowledge home, as an outcome entry |
 | A document structure that worked | The folder named at `folders.templates` |
 | An answer to anything marked "to confirm" | Wherever that item sits |
 
@@ -69,7 +85,9 @@ Read `knowledge_home` from the `resolver` block in the index before writing or r
 4. Only after a write genuinely fails: say plainly that the save did not go through, then hand back the finished entry as text ready to paste, with the exact target name. Never offer paste as a shortcut instead of attempting the write.
 5. Never default to a tool that `knowledge_home` does not name.
 
-Every other row in the table above is a brain file edited in place. Those follow the writing rules further down, not this block.
+When `company_layer` is present, `knowledge_home` covers the person's own knowledge only. Company decisions go to `company_layer.operating_rules` and team research to `company_layer.knowledge`, each as a dated entry that states what it is the source of truth for. Anything marked confidential stays in the brain folder and never crosses into the company layer. Decide the layer before the write, using the conventions file named at `files.conventions`.
+
+Every other row in the table above is a brain file or company page edited in place. Those follow the writing rules further down, not this block.
 
 ### Outcomes get three lines
 
@@ -83,7 +101,7 @@ Write it when the work ends, not weeks later. If the reason it worked is genuine
 
 ### Prices are pointed at, never copied
 
-A rate change updates where the live prices live, not the number. When the user mentions a new rate, check that the current rates pointer in the company context file still names the right source, and correct the pointer if it has moved. Never write the figure into the brain. A stale number in the brain gets quoted with confidence months later, which is worse than having no number at all.
+A rate change updates where the live prices live, not the brain. When `company_layer.pricing` is present, that page is the one place a price exists: correct it there, and check that no other page or file carries a copy. When it is absent, check that the current rates pointer in the company context file still names the right source, and correct the pointer if it has moved. Never write the figure into the brain. A stale number in the brain gets quoted with confidence months later, which is worse than having no number at all.
 
 Infer from what the user does, not only from what they say. When they rewrite a sentence, the edit is the instruction: capture what changed and why, not that they edited.
 

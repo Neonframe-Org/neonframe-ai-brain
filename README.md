@@ -53,7 +53,7 @@ One tradeoff: a hand-uploaded plugin doesn't update itself. When there's a new v
 
 Last resort, and only when both routes above have failed. The same eight skills are also published one archive per skill, so they can be added individually.
 
-1. Your setup folder has them, at `setup/offline-skills/`. If you don't have that folder, the same eight files are in [`dist/skills-v1.1.1/`](dist/skills-v1.1.1/) here.
+1. Your setup folder has them, at `setup/offline-skills/`. If you don't have that folder, the same eight files are in [`dist/skills-v1.2.0/`](dist/skills-v1.2.0/) here.
 2. In the Claude app, go to **Customize > Skills**.
 3. Click **+**, then **Create skill**, then **Upload a skill**, and pick one `.zip`.
 4. Repeat for all eight.
@@ -99,6 +99,8 @@ Reading the source before installing is worth doing here and worth doing everywh
 Every skill looks for one file: `AI-BRAIN-INDEX.md` in your AI Brain folder. That file names everything else, along with your locale and where the brain lives.
 
 Two things follow. Keep the index at the top level of the folder and keep its name exactly as it is. And if you rename any other file in the brain, update the index to match, and everything keeps working.
+
+Since 1.2.0 the index can also carry an optional `company_layer` block, for teams that keep the company's facts, voice, prices and shared knowledge in a tool the whole team reads (Notion, for example) while the personal files stay in the folder. The skills read the company from the pages the block names and the person from the folder. A brain without the block works exactly as before.
 
 ## Updates
 
